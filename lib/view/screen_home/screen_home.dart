@@ -1,3 +1,5 @@
+import 'package:cleaning_app/global%20widgets/custom_icon.dart';
+import 'package:cleaning_app/view/contract_progress_screen/contract_progress_screen.dart';
 import 'package:cleaning_app/view/home_screen/home_screen.dart';
 import 'package:cleaning_app/view/search_screen/search_screen.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +15,12 @@ class _ScreenHomeState extends State<ScreenHome> {
   List<Widget> screens = [
     HomeScreen(),
     SearchScreen(),
+    ContractScreen(),
     HomeScreen(),
-    HomeScreen(),
+    SearchScreen(),
   ];
 
-  int currentIndex = 1;
+  int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +79,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                   InkWell(
                     onTap: () {
                       setState(() {
-                        currentIndex = 2;
+                        currentIndex = 3;
                       });
                     },
                     child: Icon(
@@ -88,7 +91,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                   InkWell(
                     onTap: () {
                       setState(() {
-                        currentIndex = 3;
+                        currentIndex = 4;
                       });
                     },
                     child: Icon(
@@ -114,12 +117,19 @@ class _ScreenHomeState extends State<ScreenHome> {
               bottom: 25,
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: CircleAvatar(
-                  child: Center(
-                    child: Icon(Icons.add),
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      currentIndex = 2;
+                    });
+                  },
+                  child: CircleAvatar(
+                    child: Center(
+                      child: Icon(Icons.add),
+                    ),
+                    radius: 25,
+                    backgroundColor: Colors.black,
                   ),
-                  radius: 25,
-                  backgroundColor: Colors.black,
                 ),
               ),
             ),

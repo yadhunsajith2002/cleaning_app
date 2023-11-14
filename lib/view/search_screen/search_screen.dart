@@ -1,4 +1,5 @@
-import 'package:cleaning_app/db/data_base.dart';
+import 'package:cleaning_app/db/service_db/data_base.dart';
+import 'package:cleaning_app/view/compnay_details/company_details.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -9,12 +10,16 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  bool onchanged = false;
+
+  final searchController = TextEditingController();
   updateList(String value) {
     setState(() {
-      searchServiceList = imagedatabse
+      searchServiceList = servicesData
           .where((element) =>
               element.name.toLowerCase().contains(value.toLowerCase()))
           .toList();
+      onchanged = !onchanged;
     });
   }
 
@@ -33,6 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
               height: 15,
             ),
             TextField(
+              controller: searchController,
               onChanged: (value) => updateList(value),
               style: TextStyle(color: Colors.black),
               decoration: InputDecoration(
@@ -46,38 +52,60 @@ class _SearchScreenState extends State<SearchScreen> {
             SizedBox(
               height: 20,
             ),
-            Text(
-              "Popular services",
-              style: TextStyle(color: Colors.black, fontSize: 18),
-            ),
+            searchController.text.isEmpty
+                ? Text(
+                    "Popular services",
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  )
+                : SizedBox(),
             SizedBox(
               height: 10,
             ),
             Expanded(
-                child: ListView.builder(
-              itemCount: searchServiceList.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 40,
-                        backgroundImage:
-                            NetworkImage(searchServiceList[index].imageUrl),
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Text(
-                        searchServiceList[index].name,
-                        style: TextStyle(fontSize: 18, color: Colors.black),
+                child: searchServiceList.length == 0
+                    ? Center(
+                        child: Text(
+                          'Not found',
+                          style: TextStyle(fontSize: 20, color: Colors.grey),
+                        ),
                       )
-                    ],
-                  ),
-                );
-              },
-            ))
+                    : ListView.builder(
+                        itemCount: searchServiceList.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) {
+                                    return CompanyDetails(
+                                      index: index,
+                                    );
+                                  },
+                                ));
+                              },
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: Colors.transparent,
+                                    radius: 40,
+                                    backgroundImage: NetworkImage(
+                                        searchServiceList[index].imageUrl),
+                                  ),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Text(
+                                    searchServiceList[index].name,
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.black),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ))
           ],
         ),
       )),

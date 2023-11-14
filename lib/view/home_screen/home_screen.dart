@@ -1,4 +1,6 @@
-import 'package:cleaning_app/db/data_base.dart';
+import 'package:cleaning_app/db/service_db/data_base.dart';
+import 'package:cleaning_app/global%20widgets/custom_icon.dart';
+import 'package:cleaning_app/view/compnay_details/company_details.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        title: CustumIcon(fontSize: 18),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
       ),
@@ -78,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       GridView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: imagedatabse.length,
+                        itemCount: servicesData.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             mainAxisExtent: 150,
                             crossAxisSpacing: 10,
@@ -88,17 +91,28 @@ class _HomeScreenState extends State<HomeScreen> {
                           return Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              CircleAvatar(
-                                radius: 50,
-                                backgroundColor: Colors.white,
-                                backgroundImage:
-                                    NetworkImage(imagedatabse[index].imageUrl),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) {
+                                      return CompanyDetails(
+                                        index: index,
+                                      );
+                                    },
+                                  ));
+                                },
+                                child: CircleAvatar(
+                                  radius: 50,
+                                  backgroundColor: Colors.white,
+                                  backgroundImage: NetworkImage(
+                                      servicesData[index].imageUrl),
+                                ),
                               ),
                               SizedBox(
                                 height: 10,
                               ),
                               Text(
-                                imagedatabse[index].name,
+                                servicesData[index].name,
                                 style: TextStyle(color: Colors.black),
                               )
                             ],

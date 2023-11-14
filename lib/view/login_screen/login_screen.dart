@@ -1,6 +1,7 @@
 import 'package:cleaning_app/global%20widgets/custom_icon.dart';
 import 'package:cleaning_app/view/create_account/ceate_acc_screen.dart';
 import 'package:cleaning_app/view/home_screen/home_screen.dart';
+import 'package:cleaning_app/view/screen_home/screen_home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -122,8 +123,8 @@ class LoginScreen extends StatelessWidget {
                         foregroundColor:
                             MaterialStatePropertyAll(Colors.black)),
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => HomeScreen(),
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => ScreenHome(),
                       ));
                     },
                     child: Text(

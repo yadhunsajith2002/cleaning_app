@@ -1,6 +1,7 @@
 import 'package:cleaning_app/global%20widgets/custom_icon.dart';
 import 'package:cleaning_app/view/home_screen/home_screen.dart';
 import 'package:cleaning_app/view/login_screen/login_screen.dart';
+import 'package:cleaning_app/view/screen_home/screen_home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -117,7 +118,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       border: OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(15)),
-                      hintText: "Company name"),
+                      hintText: option ? "Company name" : "House No."),
                 ),
                 SizedBox(
                   height: 20,
@@ -202,8 +203,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         foregroundColor:
                             MaterialStatePropertyAll(Colors.black)),
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => HomeScreen(),
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => ScreenHome(),
                       ));
                     },
                     child: Text(
