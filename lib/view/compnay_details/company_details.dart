@@ -1,9 +1,14 @@
+import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cleaning_app/controller/contractDetails/contract_controller.dart';
+import 'package:cleaning_app/model/contract_model/contract_model.dart';
 import 'package:flutter/material.dart';
 import 'package:cleaning_app/db/company_dv/company_db.dart';
 import 'package:cleaning_app/db/service_db/data_base.dart';
 import 'package:cleaning_app/global%20widgets/custom_icon.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class CompanyDetails extends StatefulWidget {
   CompanyDetails({super.key, required this.index});
@@ -15,20 +20,11 @@ class CompanyDetails extends StatefulWidget {
 }
 
 class _CompanyDetailsState extends State<CompanyDetails> {
-  late ValueNotifier<DateTime> selectedDate;
-  late TimeOfDay selectedTime;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedDate = ValueNotifier(DateTime.now());
-    selectedTime = TimeOfDay.now();
-  }
+  String selectedCompany = '';
 
   @override
   Widget build(BuildContext context) {
-    final localizations = MaterialLocalizations.of(context);
-    final time = localizations.formatTimeOfDay(selectedTime);
+    var provider = Provider.of<ContractController>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -67,241 +63,132 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(5.0),
-                    child: Card(
-                      color: Colors.white,
-                      child: ExpansionTile(
-                        expandedAlignment: Alignment.topLeft,
-                        childrenPadding: EdgeInsets.all(15),
-                        title: Text(
-                          companyData[index].companyName,
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        subtitle: Text(
-                          "One of the most popular company",
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Location  :  ${companyData[index].Location}",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Text(
-                                "Total Workers  :  ${companyData[index].totalWorkers}",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    "Total Rating  : ",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  Text(
-                                    " ${companyData[index].rating}",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStatePropertyAll(Colors.green),
-                              foregroundColor:
-                                  MaterialStatePropertyAll(Colors.white),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          selectedCompany = companyData[index].companyName;
+                        });
+                      },
+                      child: Card(
+                        color: selectedCompany == companyData[index].companyName
+                            ? Colors.green
+                            : Colors.white,
+                        child: ExpansionTile(
+                          onExpansionChanged: (value) {
+                            setState(() {
+                              selectedCompany = companyData[index].companyName;
+                            });
+                          },
+                          expandedAlignment: Alignment.topLeft,
+                          childrenPadding: EdgeInsets.all(15),
+                          title: Text(
+                            companyData[index].companyName,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
                             ),
-                            onPressed: () {
-                              showBottom(context, index, time);
-                            },
-                            child: Text("Add to Contract"),
-                          )
-                        ],
+                          ),
+                          subtitle: Text(
+                            "One of the most popular company",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Location  :  ${companyData[index].Location}",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  "Total Workers  :  ${companyData[index].totalWorkers}",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Total Rating  : ",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Text(
+                                      " ${companyData[index].rating}",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
                 },
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 40),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.green),
+                    foregroundColor: MaterialStatePropertyAll(Colors.white),
+                  ),
+                  onPressed: () async {
+                    if (selectedCompany.isNotEmpty) {
+                      String serviceName = servicesData[widget.index].name;
+
+                      // Check if the service is already in the list
+                      bool serviceExists = provider.serviceNames.any(
+                          (contract) =>
+                              contract.servicename == serviceName &&
+                              contract.serviceProvider == selectedCompany);
+
+                      if (!serviceExists) {
+                        // Add the service to the list using the ContractController
+                        provider.addContract(ContractModel(
+                          servicename: serviceName,
+                          serviceProvider: selectedCompany,
+                        ));
+
+                        // Use SharedPreferences to save the list
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        prefs.setString(
+                          'contractDetails',
+                          json.encode(provider.toJsonList()),
+                        );
+                      }
+                    }
+                  },
+                  child: Text("Add to Contract"),
+                ),
               ),
             )
           ],
         ),
       ),
     );
-  }
-
-  Future<dynamic> showBottom(BuildContext context, int index, String time) {
-    return showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) {
-        return Padding(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: Container(
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "${companyData[index].companyName}",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text(
-                    "1.When should we arrive at your doorsteps?",
-                    style: GoogleFonts.poppins(
-                        fontSize: 17, fontWeight: FontWeight.w600),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  ValueListenableBuilder<DateTime>(
-                    valueListenable: selectedDate,
-                    builder: (context, value, child) {
-                      final date = DateFormat.yMMMEd().format(value);
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStatePropertyAll(Colors.green),
-                              foregroundColor:
-                                  MaterialStatePropertyAll(Colors.white),
-                            ),
-                            onPressed: () {
-                              selectDate(context);
-                            },
-                            child: Text("Change date"),
-                          ),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          Text("${date} ")
-                        ],
-                      );
-                    },
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("${time} "),
-                      SizedBox(
-                        width: 50,
-                      ),
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(Colors.green),
-                          foregroundColor:
-                              MaterialStatePropertyAll(Colors.white),
-                        ),
-                        onPressed: () {
-                          selectTime(context);
-                        },
-                        child: Text("Change Time"),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text(
-                    "2. How much workers do you want?",
-                    style: GoogleFonts.poppins(
-                        fontSize: 17, fontWeight: FontWeight.w600),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    height: 40,
-                    width: 55,
-                    color: Colors.white,
-                    child: Center(
-                      child: TextField(
-                        showCursor: false,
-                        keyboardType: TextInputType.number,
-                        style: TextStyle(color: Colors.black, fontSize: 22),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text(
-                    "3. Share your location?",
-                    style: GoogleFonts.poppins(
-                        fontSize: 17, fontWeight: FontWeight.w600),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Future<void> selectDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: selectedDate.value,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2101),
-    );
-
-    if (pickedDate != null && pickedDate != selectedDate.value) {
-      selectedDate.value = pickedDate;
-    }
-  }
-
-  Future<void> selectTime(BuildContext context) async {
-    final TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: selectedTime,
-    );
-
-    if (pickedTime != null && pickedTime != selectedTime) {
-      setState(() {
-        selectedTime = pickedTime;
-      });
-    }
   }
 }
