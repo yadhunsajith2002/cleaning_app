@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class CompanyModel {
   final String companyName;
   final String Location;

@@ -1,9 +1,8 @@
 import 'package:cleaning_app/global%20widgets/custom_icon.dart';
 import 'package:cleaning_app/view/create_account/ceate_acc_screen.dart';
-import 'package:cleaning_app/view/home_screen/home_screen.dart';
+
 import 'package:cleaning_app/view/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({super.key});

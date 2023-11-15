@@ -1,5 +1,6 @@
 import 'package:cleaning_app/controller/contractDetails/contract_controller.dart';
 import 'package:cleaning_app/global%20widgets/custom_icon.dart';
+import 'package:cleaning_app/view/contract_details_screen/contract_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,14 @@ class _ContractScreenState extends State<ContractScreen> {
       ),
       body: Column(
         children: [
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            "Current Contracts",
+            style: TextStyle(
+                color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+          ),
           SizedBox(
             height: 20,
           ),
@@ -74,7 +83,16 @@ class _ContractScreenState extends State<ContractScreen> {
                                         MaterialStatePropertyAll(Colors.white),
                                   ),
                                   onPressed: () {
-                                    // Handle button press
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          ContractDetailsScreen(
+                                        companyName: provider
+                                            .serviceNames[index]
+                                            .serviceProvider,
+                                      ),
+                                    ));
+                                    print(provider.serviceNames.length);
                                   },
                                   child: Text("Give Details"),
                                 )

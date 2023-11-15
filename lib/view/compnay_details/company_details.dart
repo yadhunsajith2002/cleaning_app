@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:cleaning_app/db/company_dv/company_db.dart';
 import 'package:cleaning_app/db/service_db/data_base.dart';
 import 'package:cleaning_app/global%20widgets/custom_icon.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:provider/provider.dart';
 
 class CompanyDetails extends StatefulWidget {
@@ -21,6 +21,7 @@ class CompanyDetails extends StatefulWidget {
 
 class _CompanyDetailsState extends State<CompanyDetails> {
   String selectedCompany = '';
+  bool isTapped = false;
 
   @override
   Widget build(BuildContext context) {
@@ -181,8 +182,11 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                         );
                       }
                     }
+                    setState(() {
+                      isTapped = true;
+                    });
                   },
-                  child: Text("Add to Contract"),
+                  child: Text(isTapped ? "Contract Signed" : "Add to Contract"),
                 ),
               ),
             )

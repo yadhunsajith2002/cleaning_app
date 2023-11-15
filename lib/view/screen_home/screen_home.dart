@@ -1,4 +1,3 @@
-import 'package:cleaning_app/global%20widgets/custom_icon.dart';
 import 'package:cleaning_app/view/contract_progress_screen/contract_progress_screen.dart';
 import 'package:cleaning_app/view/home_screen/home_screen.dart';
 import 'package:cleaning_app/view/search_screen/search_screen.dart';

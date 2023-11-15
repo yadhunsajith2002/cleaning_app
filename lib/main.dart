@@ -1,9 +1,6 @@
 import 'package:cleaning_app/controller/contractDetails/contract_controller.dart';
-
 import 'package:cleaning_app/view/screen_home/screen_home.dart';
-
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 
 void main() async {
