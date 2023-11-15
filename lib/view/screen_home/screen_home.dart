@@ -1,6 +1,7 @@
 import 'package:cleaning_app/view/contract_progress_screen/contract_progress_screen.dart';
 import 'package:cleaning_app/view/home_screen/home_screen.dart';
 import 'package:cleaning_app/view/search_screen/search_screen.dart';
+import 'package:cleaning_app/view/work_progress_screen/work_progress_screen.dart';
 import 'package:flutter/material.dart';
 
 class ScreenHome extends StatefulWidget {
@@ -15,7 +16,7 @@ class _ScreenHomeState extends State<ScreenHome> {
     HomeScreen(),
     SearchScreen(),
     ContractScreen(),
-    HomeScreen(),
+    WorkProgressScreen(),
     SearchScreen(),
   ];
 
