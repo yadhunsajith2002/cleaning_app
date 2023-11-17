@@ -92,7 +92,6 @@ class _ContractScreenState extends State<ContractScreen> {
                                             .serviceProvider,
                                       ),
                                     ));
-                                    print(provider.serviceNames.length);
                                   },
                                   child: Text("Give Details"),
                                 )

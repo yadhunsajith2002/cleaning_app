@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:cleaning_app/controller/contractDetails/contract_controller.dart';
 import 'package:cleaning_app/global%20widgets/custom_icon.dart';
+import 'package:cleaning_app/view/home_screen/home_screen.dart';
+import 'package:cleaning_app/view/view_workers/view_workers.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class ContractDetailsScreen extends StatefulWidget {
   ContractDetailsScreen({
@@ -64,6 +68,7 @@ class _ContractDetailsScreenState extends State<ContractDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final providerWatch = context.watch<ContractController>();
     final localizations = MaterialLocalizations.of(context);
     final time = localizations.formatTimeOfDay(selectedTime);
     final date = DateFormat.yMMMEd().format(selectedDate);
@@ -171,30 +176,73 @@ class _ContractDetailsScreenState extends State<ContractDetailsScreen> {
                 SizedBox(
                   height: 25,
                 ),
+                providerWatch.workersList.isNotEmpty
+                    ? Container(
+                        child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: providerWatch.workersList.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Card(
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Container(
+                                      height: 50,
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(providerWatch
+                                                  .workersList[index].image))),
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text(
+                                      providerWatch.workersList[index].name,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : SizedBox(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.add),
-                    SizedBox(
-                      width: 15,
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(Colors.green),
+                        foregroundColor: MaterialStatePropertyAll(Colors.white),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) {
+                            return ViewWorkersScreen(
+                              companyName: widget.companyName,
+                            );
+                          },
+                        ));
+                      },
+                      child: Text(providerWatch.workersList.isNotEmpty
+                          ? "Add more"
+                          : "Select Workers"),
                     ),
-                    Container(
-                      height: 40,
-                      width: 55,
-                      color: Colors.white,
-                      child: Center(
-                          child: Text(
-                        "1",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 24,
-                        ),
-                      )),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Icon(Icons.remove),
                   ],
                 ),
                 SizedBox(
@@ -256,6 +304,7 @@ class _ContractDetailsScreenState extends State<ContractDetailsScreen> {
                       style: TextStyle(fontSize: 17),
                     ),
                     Radio(
+                      activeColor: Colors.green,
                       value: 1,
                       groupValue: selectedOption,
                       onChanged: (value) {
@@ -273,6 +322,7 @@ class _ContractDetailsScreenState extends State<ContractDetailsScreen> {
                       style: TextStyle(fontSize: 17),
                     ),
                     Radio(
+                      activeColor: Colors.green,
                       value: 2,
                       groupValue: selectedOption,
                       onChanged: (value) {
@@ -357,12 +407,12 @@ class _ContractDetailsScreenState extends State<ContractDetailsScreen> {
                       style: TextStyle(fontSize: 17),
                     ),
                     Radio(
+                      activeColor: Colors.green,
                       value: 1,
                       groupValue: selectedPhotograph,
                       onChanged: (value) {
                         selectedPhotograph = value;
                         selectPhotograph = true;
-
                         setState(() {});
                       },
                     ),
@@ -374,6 +424,7 @@ class _ContractDetailsScreenState extends State<ContractDetailsScreen> {
                       style: TextStyle(fontSize: 17),
                     ),
                     Radio(
+                      activeColor: Colors.green,
                       value: 2,
                       groupValue: selectedPhotograph,
                       onChanged: (value) {

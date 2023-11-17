@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:cleaning_app/db/workers_db/workers-db.dart';
 import 'package:cleaning_app/model/contract_model/contract_model.dart';
+import 'package:cleaning_app/model/workers_model/workers_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,6 +9,15 @@ import 'package:flutter/foundation.dart';
 
 class ContractController extends ChangeNotifier {
   List<ContractModel> serviceNames = [];
+  List<WorkersData> workersList = [];
+
+  bool isAdded = false;
+
+  void addWorker(WorkersData data) {
+    workersList.add(data);
+    isAdded = true;
+    notifyListeners();
+  }
 
   Future<void> loadContracts() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
