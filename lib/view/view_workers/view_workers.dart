@@ -8,13 +8,15 @@ import 'package:provider/provider.dart';
 import 'custum_card/custum_card.dart';
 
 class ViewWorkersScreen extends StatelessWidget {
-  ViewWorkersScreen({super.key, required this.companyName});
+  ViewWorkersScreen({Key? key, required this.companyName}) : super(key: key);
 
   final String companyName;
 
   @override
   Widget build(BuildContext context) {
     final providerRead = context.read<ContractController>();
+    final providerWatch = context.watch<ContractController>();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -54,29 +56,20 @@ class ViewWorkersScreen extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: workersDb.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    mainAxisExtent: MediaQuery.of(context).size.height * 0.5,
-                    crossAxisCount: 2),
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 5,
+                  mainAxisExtent: MediaQuery.of(context).size.height * 0.5,
+                  crossAxisCount: 2,
+                ),
                 itemBuilder: (context, index) {
                   return WorkersCustumCard(
                     index: index,
-                    onAdd: () {
-                      providerRead.addWorker(
-                        WorkersData(
-                          image: workersDb[index].image,
-                          name: workersDb[index].name,
-                          place: workersDb[index].place,
-                          about: workersDb[index].name,
-                          experiance: workersDb[index].experiance,
-                        ),
-                      );
-                      print(providerRead.workersList.length);
-                    },
                   );
                 },
               ),
               SizedBox(
                 height: 15,
-              )
+              ),
             ],
           ),
         ),

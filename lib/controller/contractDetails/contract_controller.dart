@@ -11,12 +11,20 @@ class ContractController extends ChangeNotifier {
   List<ContractModel> serviceNames = [];
   List<WorkersData> workersList = [];
 
-  bool isAdded = false;
-
   void addWorker(WorkersData data) {
     workersList.add(data);
-    isAdded = true;
     notifyListeners();
+  }
+
+  void removeWorkerByIndex(int index) {
+    if (index >= 0 && index < workersList.length) {
+      workersList.removeAt(index);
+      notifyListeners();
+    }
+  }
+
+  bool isWorkerAddedByIndex(int index) {
+    return index >= 0 && index < workersList.length;
   }
 
   Future<void> loadContracts() async {

@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:cleaning_app/controller/contractDetails/contract_controller.dart';
 import 'package:cleaning_app/global%20widgets/custom_icon.dart';
 import 'package:cleaning_app/view/home_screen/home_screen.dart';
+import 'package:cleaning_app/view/screen_home/screen_home.dart';
 import 'package:cleaning_app/view/view_workers/view_workers.dart';
+import 'package:cleaning_app/view/work_progress_screen/work_progress_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -69,6 +71,7 @@ class _ContractDetailsScreenState extends State<ContractDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final providerWatch = context.watch<ContractController>();
+    final providerRead = context.read<ContractController>();
     final localizations = MaterialLocalizations.of(context);
     final time = localizations.formatTimeOfDay(selectedTime);
     final date = DateFormat.yMMMEd().format(selectedDate);
@@ -188,10 +191,12 @@ class _ContractDetailsScreenState extends State<ContractDetailsScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: Card(
                                 child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     SizedBox(
-                                      width: 20,
-                                    ),
+                                        // width: 20,
+                                        ),
                                     Container(
                                       height: 50,
                                       width: 50,
@@ -203,9 +208,6 @@ class _ContractDetailsScreenState extends State<ContractDetailsScreen> {
                                               image: NetworkImage(providerWatch
                                                   .workersList[index].image))),
                                     ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
                                     Text(
                                       providerWatch.workersList[index].name,
                                       style: TextStyle(
@@ -214,6 +216,15 @@ class _ContractDetailsScreenState extends State<ContractDetailsScreen> {
                                         color: Colors.white,
                                       ),
                                     ),
+                                    SizedBox(
+                                      width: 60,
+                                    ),
+                                    IconButton(
+                                        onPressed: () {
+                                          providerRead
+                                              .removeWorkerByIndex(index);
+                                        },
+                                        icon: Icon(Icons.close))
                                   ],
                                 ),
                               ),
@@ -439,27 +450,6 @@ class _ContractDetailsScreenState extends State<ContractDetailsScreen> {
                 selectPhotograph
                     ? Column(
                         children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStatePropertyAll(Colors.green),
-                                foregroundColor:
-                                    MaterialStatePropertyAll(Colors.white),
-                              ),
-                              onPressed: () async {
-                                await selectImage();
-                              },
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text("Add image"),
-                                  Icon(Icons.add),
-                                ],
-                              ),
-                            ),
-                          ),
                           SizedBox(
                             height: 10,
                           ),
@@ -484,7 +474,30 @@ class _ContractDetailsScreenState extends State<ContractDetailsScreen> {
                                       );
                                     },
                                   ),
-                                )
+                                ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(Colors.green),
+                                foregroundColor:
+                                    MaterialStatePropertyAll(Colors.white),
+                              ),
+                              onPressed: () async {
+                                await selectImage();
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(imageList.isEmpty
+                                      ? "Add image"
+                                      : "Add more"),
+                                  Icon(Icons.add),
+                                ],
+                              ),
+                            ),
+                          ),
                         ],
                       )
                     : SizedBox(),
@@ -560,15 +573,36 @@ class _ContractDetailsScreenState extends State<ContractDetailsScreen> {
                   backgroundColor: Colors.black,
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          "Data added succesfully",
-                          style: TextStyle(color: Colors.white),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "Data added succesfully",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Icon(Icons.done)
+                          ],
                         ),
-                        Icon(Icons.done)
+                        SizedBox(
+                          height: 10,
+                        ),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.green),
+                            foregroundColor:
+                                MaterialStatePropertyAll(Colors.white),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ScreenHome()));
+                          },
+                          child: Text("Goto Home"),
+                        ),
                       ],
                     ),
                   ),

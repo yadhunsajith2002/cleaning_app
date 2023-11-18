@@ -173,7 +173,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                           serviceProvider: selectedCompany,
                         ));
 
-                        // Use SharedPreferences to save the list
+                        // Used SharedPreferences to save the list
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
                         prefs.setString(
