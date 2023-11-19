@@ -598,8 +598,9 @@ class _ContractDetailsScreenState extends State<ContractDetailsScreen> {
                                 MaterialStatePropertyAll(Colors.white),
                           ),
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ScreenHome()));
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => ScreenHome()));
                           },
                           child: Text("Goto Home"),
                         ),

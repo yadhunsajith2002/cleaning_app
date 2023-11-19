@@ -1,4 +1,5 @@
 import 'package:cleaning_app/db/service_db/data_base.dart';
+import 'package:cleaning_app/global%20widgets/custom_icon.dart';
 import 'package:cleaning_app/view/compnay_details/company_details.dart';
 import 'package:flutter/material.dart';
 
@@ -26,50 +27,56 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: CustumIcon(fontSize: 22),
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 15,
-            ),
-            TextField(
-              controller: searchController,
-              onChanged: (value) => updateList(value),
-              style: TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  prefixIcon: Icon(Icons.search),
-                  suffixIcon: Icon(Icons.clear),
-                  hintStyle: TextStyle(color: Colors.grey),
-                  hintText: "Search for services"),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            searchController.text.isEmpty
-                ? Text(
-                    "Popular services",
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                  )
-                : SizedBox(),
-            SizedBox(
-              height: 10,
-            ),
-            Expanded(
-                child: searchServiceList.length == 0
-                    ? Center(
-                        child: Text(
-                          'Not found',
-                          style: TextStyle(fontSize: 20, color: Colors.grey),
-                        ),
-                      )
-                    : ListView.builder(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 15,
+              ),
+              TextField(
+                controller: searchController,
+                onChanged: (value) => updateList(value),
+                style: TextStyle(color: Colors.black),
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    prefixIcon: Icon(Icons.search),
+                    hintStyle: TextStyle(color: Colors.grey),
+                    hintText: "Search for services"),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              searchController.text.isEmpty
+                  ? Text(
+                      "Popular services",
+                      style: TextStyle(color: Colors.black, fontSize: 18),
+                    )
+                  : SizedBox(),
+              SizedBox(
+                height: 10,
+              ),
+              searchServiceList.length == 0
+                  ? Center(
+                      child: Text(
+                        'Not found',
+                        style: TextStyle(fontSize: 20, color: Colors.grey),
+                      ),
+                    )
+                  : Container(
+                      child: ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
                         itemCount: searchServiceList.length,
                         itemBuilder: (context, index) {
                           return Padding(
@@ -105,8 +112,10 @@ class _SearchScreenState extends State<SearchScreen> {
                             ),
                           );
                         },
-                      ))
-          ],
+                      ),
+                    )
+            ],
+          ),
         ),
       )),
     );

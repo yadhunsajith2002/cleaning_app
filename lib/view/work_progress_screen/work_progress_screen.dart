@@ -4,7 +4,7 @@ import 'package:cleaning_app/view/contract_details_screen/contract_details_scree
 import 'package:cleaning_app/view/work_progress_screen/progress_timeline/progress_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class WorkProgressScreen extends StatefulWidget {
@@ -36,10 +36,26 @@ class _WorkProgressScreenState extends State<WorkProgressScreen> {
           SizedBox(
             height: 20,
           ),
-          Text(
-            "Active contracts",
-            style: TextStyle(
-                color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Active contracts",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold),
+              ),
+              AvatarGlow(
+                  duration: Duration(milliseconds: 2000),
+                  glowColor: Colors.green,
+                  repeatPauseDuration: Duration(milliseconds: 100),
+                  child: CircleAvatar(
+                    radius: 10,
+                    backgroundColor: Colors.green.shade400,
+                  ),
+                  endRadius: 25)
+            ],
           ),
           SizedBox(
             height: 20,
@@ -59,10 +75,10 @@ class _WorkProgressScreenState extends State<WorkProgressScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Colors.black,
-                              border:
-                                  Border.all(color: Colors.green, width: 7)),
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.black,
+                            // border: Border.all(color: Colors.green, width: 7),
+                          ),
                           child: ExpansionTile(
                             childrenPadding: EdgeInsets.all(20),
                             initiallyExpanded: true,
