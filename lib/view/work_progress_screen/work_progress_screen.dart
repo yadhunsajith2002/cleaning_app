@@ -28,6 +28,7 @@ class _WorkProgressScreenState extends State<WorkProgressScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: CustumIcon(fontSize: 22),
       ),
       body: Column(
@@ -47,7 +48,7 @@ class _WorkProgressScreenState extends State<WorkProgressScreen> {
             child: provider.serviceNames.length == 0
                 ? Center(
                     child: Text(
-                      "No Contract yet",
+                      "No Active contracts yet",
                       style: TextStyle(color: Colors.grey, fontSize: 22),
                     ),
                   )
@@ -56,9 +57,14 @@ class _WorkProgressScreenState extends State<WorkProgressScreen> {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Card(
-                          color: Colors.grey.shade300,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.black,
+                              border:
+                                  Border.all(color: Colors.green, width: 7)),
                           child: ExpansionTile(
+                            childrenPadding: EdgeInsets.all(20),
                             initiallyExpanded: true,
                             collapsedShape:
                                 RoundedRectangleBorder(side: BorderSide.none),
@@ -67,7 +73,7 @@ class _WorkProgressScreenState extends State<WorkProgressScreen> {
                             title: Text(
                               provider.serviceNames[index].servicename,
                               style:
-                                  TextStyle(color: Colors.black, fontSize: 22),
+                                  TextStyle(color: Colors.white, fontSize: 22),
                             ),
                             subtitle: Text(
                               provider.serviceNames[index].serviceProvider,
@@ -79,10 +85,35 @@ class _WorkProgressScreenState extends State<WorkProgressScreen> {
                                 height: 10,
                               ),
                               CircularPercentIndicator(
-                                radius: 20,
+                                center: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      "50 % ",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      "completed",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                ),
+                                lineWidth: 15,
+                                animation: true,
+                                animationDuration: 5000,
+                                progressColor: Colors.green,
+                                percent: 0.5,
+                                radius: 80,
+                                circularStrokeCap: CircularStrokeCap.round,
                               ),
                               SizedBox(
-                                height: 10,
+                                height: 50,
                               ),
                               ElevatedButton(
                                 style: ButtonStyle(
