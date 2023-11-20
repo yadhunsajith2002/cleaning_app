@@ -45,7 +45,7 @@ class OnBoardingScreen extends StatelessWidget {
                 backgroundColor: MaterialStatePropertyAll(Colors.green),
                 foregroundColor: MaterialStatePropertyAll(Colors.black)),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (context) => CreateAccountScreen(),
               ));
             },
@@ -61,7 +61,7 @@ class OnBoardingScreen extends StatelessWidget {
             Text("Already Have an account?"),
             TextButton(
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => LoginScreen(),
                   ));
                 },

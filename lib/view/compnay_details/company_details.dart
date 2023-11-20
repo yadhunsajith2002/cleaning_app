@@ -52,7 +52,8 @@ class _CompanyDetailsState extends State<CompanyDetails> {
               ),
             ),
             Text(
-              "${servicesData[widget.index].name}",
+              // need to be handled there is an exception
+              "${searchServiceList[widget.index].name}",
               style: TextStyle(fontSize: 24, color: Colors.green),
             ),
             SizedBox(

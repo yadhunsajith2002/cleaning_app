@@ -1,6 +1,3 @@
-import 'package:cleaning_app/db/service_db/data_base.dart';
-import 'package:cleaning_app/global%20widgets/custom_icon.dart';
-import 'package:cleaning_app/view/compnay_details/company_details.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

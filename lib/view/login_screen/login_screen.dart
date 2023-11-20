@@ -13,18 +13,18 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
+        // leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: CustumIcon(
           fontSize: 25,
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.settings),
-          )
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.all(8.0),
+        //     child: Icon(Icons.settings),
+        //   )
+        // ],
       ),
       body: Container(
         height: double.infinity,
@@ -105,7 +105,8 @@ class LoginScreen extends StatelessWidget {
                     Text("You don't Have an account?"),
                     TextButton(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(
                             builder: (context) => CreateAccountScreen(),
                           ));
                         },

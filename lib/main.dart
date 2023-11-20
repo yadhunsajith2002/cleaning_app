@@ -1,4 +1,5 @@
 import 'package:cleaning_app/controller/contractDetails/contract_controller.dart';
+import 'package:cleaning_app/view/contract_details_screen/task_details_screen.dart';
 import 'package:cleaning_app/view/screen_home/screen_home.dart';
 import 'package:cleaning_app/view/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -20,11 +21,10 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData.dark(useMaterial3: true),
-        title: 'Flutter Demo',
-        home: ScreenHome(),
-      ),
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData.dark(useMaterial3: true),
+          title: 'Flutter Demo',
+          home: ScreenHome()),
     );
   }
 }

@@ -21,18 +21,18 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
+        // leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: CustumIcon(
           fontSize: 25,
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.settings),
-          )
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.all(8.0),
+        //     child: Icon(Icons.settings),
+        //   )
+        // ],
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -220,7 +220,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     Text("Already Have an account?"),
                     TextButton(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(
                             builder: (context) => LoginScreen(),
                           ));
                         },

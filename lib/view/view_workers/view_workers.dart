@@ -18,6 +18,7 @@ class ViewWorkersScreen extends StatelessWidget {
     final providerWatch = context.watch<ContractController>();
 
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
         automaticallyImplyLeading: false,
