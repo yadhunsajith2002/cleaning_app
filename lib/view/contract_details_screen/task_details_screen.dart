@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cleaning_app/controller/contractDetails/contract_controller.dart';
+import 'package:cleaning_app/controller/task_controller/task_controller.dart';
 import 'package:cleaning_app/view/screen_home/screen_home.dart';
 import 'package:cleaning_app/view/view_workers/view_workers.dart';
 import 'package:flutter/material.dart';
@@ -19,42 +20,30 @@ class TaskDetailsScreen extends StatefulWidget {
 }
 
 class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
-  final ImagePicker imagePicker = ImagePicker();
-  List<XFile> imageList = [];
-  selectImage() async {
-    final List<XFile> selectedImages = await imagePicker.pickMultiImage();
-    if (selectedImages.isNotEmpty) {
-      imageList.addAll(selectedImages);
-    }
-    setState(() {});
-  }
-
-  int currentIndex = 0;
-  late DateTime selectedDate;
-  late TimeOfDay selectedTime;
   @override
   void initState() {
     super.initState();
-    selectedDate = DateTime.now();
-    selectedTime = TimeOfDay.now();
+    Provider.of<TaskController>(context, listen: false).getDateTime();
   }
-
-  int? paymentMethod;
 
   @override
   Widget build(BuildContext context) {
+    final taskProvider = context.watch<TaskController>();
+    final taskProviderRead = context.read<TaskController>();
     final providerWatch = context.watch<ContractController>();
     final providerRead = context.read<ContractController>();
     final localizations = MaterialLocalizations.of(context);
-    final time = localizations.formatTimeOfDay(selectedTime);
-    final date = DateFormat.yMMMEd().format(selectedDate);
+    final time = localizations.formatTimeOfDay(taskProvider.selectedTime);
+    final date = DateFormat.yMMMEd().format(taskProvider.selectedDate);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         centerTitle: true,
         leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
             icon: Icon(
               Icons.close,
               color: Colors.white,
@@ -89,15 +78,13 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         children: [
                           InkWell(
                             onTap: () {
-                              setState(() {
-                                currentIndex = 0;
-                              });
+                              taskProviderRead.onDetailsTap();
                             },
                             child: Container(
                               height: 35,
                               width: MediaQuery.of(context).size.width * 0.4,
                               decoration: BoxDecoration(
-                                  color: currentIndex == 0
+                                  color: taskProvider.currentIndex == 0
                                       ? Colors.green
                                       : Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(20)),
@@ -114,15 +101,13 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                           ),
                           InkWell(
                             onTap: () {
-                              setState(() {
-                                currentIndex = 1;
-                              });
+                              taskProviderRead.onDateTimeTap();
                             },
                             child: Container(
                               height: 35,
                               width: MediaQuery.of(context).size.width * 0.4,
                               decoration: BoxDecoration(
-                                  color: currentIndex == 1
+                                  color: taskProvider.currentIndex == 1
                                       ? Colors.green
                                       : Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(20)),
@@ -142,7 +127,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       SizedBox(
                         height: 25,
                       ),
-                      currentIndex == 0
+                      taskProvider.currentIndex == 0
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -232,7 +217,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                     ),
                                     InkWell(
                                       onTap: () async {
-                                        await selectImage();
+                                        await taskProviderRead.selectImage();
                                       },
                                       child: Text(
                                         "Upload attachments",
@@ -247,23 +232,29 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                 SizedBox(
                                   height: 10,
                                 ),
-                                imageList.length == 0
+                                taskProvider.imageList.length == 0
                                     ? SizedBox()
                                     : Container(
                                         child: GridView.builder(
                                           shrinkWrap: true,
                                           physics:
                                               NeverScrollableScrollPhysics(),
-                                          itemCount: imageList.length,
+                                          itemCount:
+                                              taskProvider.imageList.length,
                                           gridDelegate:
                                               SliverGridDelegateWithFixedCrossAxisCount(
                                                   crossAxisSpacing: 10,
                                                   mainAxisSpacing: 10,
                                                   crossAxisCount: 3),
                                           itemBuilder: (context, index) {
-                                            return Image.file(
-                                              File(imageList[index].path),
-                                              fit: BoxFit.cover,
+                                            return ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              child: Image.file(
+                                                File(taskProvider
+                                                    .imageList[index].path),
+                                                fit: BoxFit.cover,
+                                              ),
                                             );
                                           },
                                         ),
@@ -429,14 +420,13 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        setState(() {
-                                          paymentMethod = 1;
-                                        });
+                                        taskProviderRead.onPayOnline();
                                       },
                                       child: Chip(
-                                        backgroundColor: paymentMethod == 1
-                                            ? Colors.green
-                                            : Colors.grey.shade400,
+                                        backgroundColor:
+                                            taskProvider.paymentMethod == 1
+                                                ? Colors.green
+                                                : Colors.grey.shade400,
                                         label: Text("Online Payment"),
                                       ),
                                     ),
@@ -445,14 +435,13 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        setState(() {
-                                          paymentMethod = 2;
-                                        });
+                                        taskProviderRead.onPayCod();
                                       },
                                       child: Chip(
-                                        backgroundColor: paymentMethod == 2
-                                            ? Colors.green
-                                            : Colors.grey.shade400,
+                                        backgroundColor:
+                                            taskProvider.paymentMethod == 2
+                                                ? Colors.green
+                                                : Colors.grey.shade400,
                                         label: Text("COD"),
                                       ),
                                     ),
@@ -490,7 +479,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                                   Colors.white),
                                         ),
                                         onPressed: () {
-                                          selectDate(context);
+                                          taskProviderRead.selectDate(context);
                                         },
                                         child: Text("Change date"),
                                       ),
@@ -522,7 +511,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                                   Colors.white),
                                         ),
                                         onPressed: () {
-                                          selectTime(context);
+                                          taskProviderRead.selectTime(context);
                                         },
                                         child: Text("Change Time"),
                                       ),
@@ -576,32 +565,5 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> selectDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2101),
-    );
-
-    if (pickedDate != null && pickedDate != selectedDate) {
-      selectedDate = pickedDate;
-      setState(() {});
-    }
-  }
-
-  Future<void> selectTime(BuildContext context) async {
-    final TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: selectedTime,
-    );
-
-    if (pickedTime != null && pickedTime != selectedTime) {
-      setState(() {
-        selectedTime = pickedTime;
-      });
-    }
   }
 }

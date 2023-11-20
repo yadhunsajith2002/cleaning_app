@@ -121,7 +121,7 @@ class _WorkProgressScreenState extends State<WorkProgressScreen> {
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Text(
-                                                "50 % ",
+                                                "Work in ",
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 20,
@@ -129,7 +129,7 @@ class _WorkProgressScreenState extends State<WorkProgressScreen> {
                                                         FontWeight.w500),
                                               ),
                                               Text(
-                                                "completed",
+                                                "progress",
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 16,
@@ -166,7 +166,7 @@ class _WorkProgressScreenState extends State<WorkProgressScreen> {
                                                   ProgressTimeLine(),
                                             ));
                                           },
-                                          child: Text("View Progress"),
+                                          child: Text("View"),
                                         ),
                                         SizedBox(
                                           height: 20,

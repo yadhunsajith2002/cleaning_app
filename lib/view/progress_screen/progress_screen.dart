@@ -77,8 +77,7 @@ class _ContractScreenState extends State<ContractScreen> {
                                           .push(MaterialPageRoute(
                                         builder: (context) => TaskDetailsScreen(
                                           companyName: provider
-                                              .serviceNames[index]
-                                              .serviceProvider,
+                                              .serviceNames[index].servicename,
                                         ),
                                       ));
                                     },
