@@ -16,7 +16,7 @@ class _SearchScreenState extends State<SearchScreen> {
   final searchController = TextEditingController();
   updateList(String value) {
     setState(() {
-      searchServiceList = servicesData
+      popularServices = servicesData
           .where((element) =>
               element.name.toLowerCase().contains(value.toLowerCase()))
           .toList();
@@ -66,7 +66,7 @@ class _SearchScreenState extends State<SearchScreen> {
               SizedBox(
                 height: 10,
               ),
-              searchServiceList.length == 0
+              popularServices.length == 0
                   ? Center(
                       child: Text(
                         'Not found',
@@ -77,7 +77,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       child: ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: searchServiceList.length,
+                        itemCount: popularServices.length,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -97,13 +97,13 @@ class _SearchScreenState extends State<SearchScreen> {
                                     backgroundColor: Colors.transparent,
                                     radius: 40,
                                     backgroundImage: NetworkImage(
-                                        searchServiceList[index].imageUrl),
+                                        popularServices[index].imageUrl),
                                   ),
                                   SizedBox(
                                     width: 15,
                                   ),
                                   Text(
-                                    searchServiceList[index].name,
+                                    popularServices[index].name,
                                     style: TextStyle(
                                         fontSize: 18, color: Colors.black),
                                   )

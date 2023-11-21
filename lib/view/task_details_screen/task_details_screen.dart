@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cleaning_app/controller/contractDetails/contract_controller.dart';
 import 'package:cleaning_app/controller/task_controller/task_controller.dart';
+import 'package:cleaning_app/view/task_details_screen/date_time_screen/date_time_screen.dart';
 import 'package:cleaning_app/view/screen_home/screen_home.dart';
 import 'package:cleaning_app/view/view_workers/view_workers.dart';
 import 'package:flutter/material.dart';
@@ -32,9 +33,6 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
     final taskProviderRead = context.read<TaskController>();
     final providerWatch = context.watch<ContractController>();
     final providerRead = context.read<ContractController>();
-    final localizations = MaterialLocalizations.of(context);
-    final time = localizations.formatTimeOfDay(taskProvider.selectedTime);
-    final date = DateFormat.yMMMEd().format(taskProvider.selectedDate);
 
     return Scaffold(
       appBar: AppBar(
@@ -78,7 +76,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         children: [
                           InkWell(
                             onTap: () {
-                              taskProviderRead.onDetailsTap();
+                              taskProviderRead.onScreenChange(index: 0);
                             },
                             child: Container(
                               height: 35,
@@ -101,7 +99,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                           ),
                           InkWell(
                             onTap: () {
-                              taskProviderRead.onDateTimeTap();
+                              taskProviderRead.onScreenChange(index: 1);
                             },
                             child: Container(
                               height: 35,
@@ -420,7 +418,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        taskProviderRead.onPayOnline();
+                                        taskProviderRead.onPayMode(1);
                                       },
                                       child: Chip(
                                         backgroundColor:
@@ -435,7 +433,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        taskProviderRead.onPayCod();
+                                        taskProviderRead.onPayMode(2);
                                       },
                                       child: Chip(
                                         backgroundColor:
@@ -452,85 +450,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                 ),
                               ],
                             )
-                          : Column(
-                              children: [
-                                Text(
-                                  "When should we arrive at your doorsteps ?",
-                                  style: GoogleFonts.poppins(
-                                      color: Colors.black,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.left,
-                                ),
-                                SizedBox(
-                                  height: 30,
-                                ),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 30),
-                                      child: ElevatedButton(
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStatePropertyAll(
-                                                  Colors.green),
-                                          foregroundColor:
-                                              MaterialStatePropertyAll(
-                                                  Colors.white),
-                                        ),
-                                        onPressed: () {
-                                          taskProviderRead.selectDate(context);
-                                        },
-                                        child: Text("Change date"),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Text(
-                                      "${date} ",
-                                      style: TextStyle(
-                                          fontSize: 18, color: Colors.black),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 30),
-                                      child: ElevatedButton(
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStatePropertyAll(
-                                                  Colors.green),
-                                          foregroundColor:
-                                              MaterialStatePropertyAll(
-                                                  Colors.white),
-                                        ),
-                                        onPressed: () {
-                                          taskProviderRead.selectTime(context);
-                                        },
-                                        child: Text("Change Time"),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Text(
-                                      "${time} ",
-                                      style: TextStyle(
-                                          fontSize: 18, color: Colors.black),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 30,
-                                ),
-                              ],
-                            ),
+                          : DateTimeScreen(),
                     ],
                   ),
                 ),

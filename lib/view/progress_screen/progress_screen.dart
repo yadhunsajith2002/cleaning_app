@@ -1,7 +1,7 @@
 import 'package:cleaning_app/controller/contractDetails/contract_controller.dart';
 import 'package:cleaning_app/global%20widgets/custom_icon.dart';
-import 'package:cleaning_app/view/contract_details_screen/contract_details_screen.dart';
-import 'package:cleaning_app/view/contract_details_screen/task_details_screen.dart';
+import 'package:cleaning_app/view/task_details_screen/contract_details_screen.dart';
+import 'package:cleaning_app/view/task_details_screen/task_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -59,7 +59,8 @@ class _ContractScreenState extends State<ContractScreen> {
                   children: [
                     Expanded(
                       child: provider.serviceNames.length == 0
-                          ? Center(
+                          ? Align(
+                              alignment: Alignment.topCenter,
                               child: Text(
                                 "No Contract yet",
                                 style:

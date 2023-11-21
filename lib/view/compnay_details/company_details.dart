@@ -27,7 +27,9 @@ class _CompanyDetailsState extends State<CompanyDetails> {
   Widget build(BuildContext context) {
     var provider = Provider.of<ContractController>(context, listen: false);
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
+        backgroundColor: Colors.black,
         centerTitle: true,
         title: CustumIcon(fontSize: 20),
         leading: IconButton(
@@ -53,7 +55,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
             ),
             Text(
               // need to be handled there is an exception
-              "${searchServiceList[widget.index].name}",
+              "${popularServices[widget.index].name}",
               style: TextStyle(fontSize: 24, color: Colors.green),
             ),
             SizedBox(
@@ -154,7 +156,10 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                 padding: const EdgeInsets.only(bottom: 40),
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.green),
+                    backgroundColor: MaterialStatePropertyAll(
+                        selectedCompany.isNotEmpty
+                            ? Colors.green
+                            : Colors.grey),
                     foregroundColor: MaterialStatePropertyAll(Colors.white),
                   ),
                   onPressed: () async {
@@ -186,8 +191,43 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                     setState(() {
                       isTapped = true;
                     });
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            backgroundColor: Colors.green,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 25),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Center(
+                                      child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Contract Signed",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                            fontSize: 20),
+                                      ),
+                                      Icon(
+                                        Icons.done,
+                                        color: Colors.black,
+                                      )
+                                    ],
+                                  )),
+                                ],
+                              ),
+                            ),
+                          );
+                        });
                   },
-                  child: Text(isTapped ? "Contract Signed" : "Add to Contract"),
+                  child: Text(selectedCompany.isNotEmpty
+                      ? "Add to contract"
+                      : "Add to contract"),
                 ),
               ),
             )

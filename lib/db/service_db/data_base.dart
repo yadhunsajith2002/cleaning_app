@@ -1,6 +1,6 @@
 import 'package:cleaning_app/model/service_model/service_model.dart';
 
-List<ServiceModel> searchServiceList = List.from(servicesData);
+List<ServiceModel> popularServices = List.from(servicesData);
 
 List<ServiceModel> servicesData = [
   ServiceModel(

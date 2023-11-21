@@ -1,6 +1,6 @@
 import 'package:cleaning_app/controller/contractDetails/contract_controller.dart';
 import 'package:cleaning_app/global%20widgets/custom_icon.dart';
-import 'package:cleaning_app/view/contract_details_screen/contract_details_screen.dart';
+import 'package:cleaning_app/view/task_details_screen/contract_details_screen.dart';
 import 'package:cleaning_app/view/work_progress_screen/progress_timeline/progress_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -70,11 +70,11 @@ class _WorkProgressScreenState extends State<WorkProgressScreen> {
                       BorderRadius.only(topLeft: Radius.circular(60))),
               child: Padding(
                 padding: const EdgeInsets.all(25.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: provider.serviceNames.length == 0
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      provider.serviceNames.length == 0
                           ? Center(
                               child: Text(
                                 "No Active contracts yet",
@@ -83,6 +83,8 @@ class _WorkProgressScreenState extends State<WorkProgressScreen> {
                               ),
                             )
                           : ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
                               itemCount: provider.serviceNames.length,
                               itemBuilder: (context, index) {
                                 return Padding(
@@ -150,23 +152,21 @@ class _WorkProgressScreenState extends State<WorkProgressScreen> {
                                         SizedBox(
                                           height: 50,
                                         ),
-                                        ElevatedButton(
-                                          style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStatePropertyAll(
-                                                    Colors.green),
-                                            foregroundColor:
-                                                MaterialStatePropertyAll(
-                                                    Colors.white),
+                                        TextButton(
+                                          // style: ButtonStyle(
+                                          //   backgroundColor:
+                                          //       MaterialStatePropertyAll(
+                                          //           Colors.green),
+                                          //   foregroundColor:
+                                          //       MaterialStatePropertyAll(
+                                          //           Colors.white),
+                                          // ),
+                                          onPressed: () {},
+                                          child: Text(
+                                            "Details",
+                                            style:
+                                                TextStyle(color: Colors.green),
                                           ),
-                                          onPressed: () {
-                                            Navigator.of(context)
-                                                .push(MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ProgressTimeLine(),
-                                            ));
-                                          },
-                                          child: Text("View"),
                                         ),
                                         SizedBox(
                                           height: 20,
@@ -177,8 +177,8 @@ class _WorkProgressScreenState extends State<WorkProgressScreen> {
                                 );
                               },
                             ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

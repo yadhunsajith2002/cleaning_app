@@ -9,31 +9,6 @@ class TaskController extends ChangeNotifier {
   late DateTime selectedDate;
   late TimeOfDay selectedTime;
 
-  getDateTime() {
-    selectedDate = DateTime.now();
-    selectedTime = TimeOfDay.now();
-  }
-
-  onPayOnline() {
-    paymentMethod = 1;
-    notifyListeners();
-  }
-
-  onPayCod() {
-    paymentMethod = 2;
-    notifyListeners();
-  }
-
-  onDetailsTap() {
-    currentIndex = 0;
-    notifyListeners();
-  }
-
-  onDateTimeTap() {
-    currentIndex = 1;
-    notifyListeners();
-  }
-
   final ImagePicker imagePicker = ImagePicker();
   List<XFile> imageList = [];
   selectImage() async {
@@ -69,5 +44,20 @@ class TaskController extends ChangeNotifier {
 
       notifyListeners();
     }
+  }
+
+  getDateTime() {
+    selectedDate = DateTime.now();
+    selectedTime = TimeOfDay.now();
+  }
+
+  onPayMode(int method) {
+    paymentMethod = method;
+    notifyListeners();
+  }
+
+  onScreenChange({required int index}) {
+    currentIndex = index;
+    notifyListeners();
   }
 }

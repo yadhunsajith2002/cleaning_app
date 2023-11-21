@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 
 class ContractController extends ChangeNotifier {
   List<ContractModel> serviceNames = [];
+
   List<WorkersData> workersList = [];
 
   void addWorker(WorkersData data) {
