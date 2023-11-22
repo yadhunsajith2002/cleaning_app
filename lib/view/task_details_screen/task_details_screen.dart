@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class TaskDetailsScreen extends StatefulWidget {
@@ -462,8 +463,31 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: InkWell(
         onTap: () {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => ScreenHome()));
+          showDialog(
+              context: context,
+              builder: (context) {
+                return Dialog(
+                  backgroundColor: Colors.transparent,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 25),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Center(
+                          child: Lottie.asset(
+                            "assets/animations/Animation - 1700660573236.json",
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              });
+          Future.delayed(Duration(seconds: 3), () {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => ScreenHome()));
+          });
         },
         child: Card(
           color: Colors.green[600],

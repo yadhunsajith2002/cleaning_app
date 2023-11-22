@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cleaning_app/view/task_details_screen/task_details_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cleaning_app/controller/contractDetails/contract_controller.dart';
 import 'package:cleaning_app/model/contract_model/contract_model.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:cleaning_app/db/company_dv/company_db.dart';
 import 'package:cleaning_app/db/service_db/data_base.dart';
 import 'package:cleaning_app/global%20widgets/custom_icon.dart';
-
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class CompanyDetails extends StatefulWidget {
@@ -195,7 +196,7 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                         context: context,
                         builder: (context) {
                           return Dialog(
-                            backgroundColor: Colors.green,
+                            backgroundColor: Colors.black,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 25, vertical: 25),
@@ -203,22 +204,52 @@ class _CompanyDetailsState extends State<CompanyDetails> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Center(
-                                      child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Contract Signed",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                            fontSize: 20),
+                                      child: TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pushReplacement(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    TaskDetailsScreen(
+                                                        companyName:
+                                                            popularServices[
+                                                                    widget
+                                                                        .index]
+                                                                .name),
+                                              ),
+                                            );
+                                          },
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "Give details",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.green),
+                                              ),
+                                              Icon(Icons.arrow_forward_sharp)
+                                            ],
+                                          ))
+                                      // child: Row(
+                                      //   mainAxisAlignment:
+                                      //       MainAxisAlignment.center,
+                                      //   children: [
+                                      //     Text(
+                                      //       "Contract Signed",
+                                      //       style: TextStyle(
+                                      //           fontWeight: FontWeight.bold,
+                                      //           color: Colors.black,
+                                      //           fontSize: 20),
+                                      //     ),
+                                      //     Icon(
+                                      //       Icons.done,
+                                      //       color: Colors.black,
+                                      //     )
+                                      //   ],
+                                      // ),
                                       ),
-                                      Icon(
-                                        Icons.done,
-                                        color: Colors.black,
-                                      )
-                                    ],
-                                  )),
                                 ],
                               ),
                             ),

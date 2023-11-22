@@ -26,6 +26,7 @@ class _ContractScreenState extends State<ContractScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.black,
         title: CustumIcon(fontSize: 22),
       ),
