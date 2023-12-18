@@ -13,9 +13,12 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class TaskDetailsScreen extends StatefulWidget {
-  TaskDetailsScreen({super.key, required this.companyName});
+  TaskDetailsScreen(
+      {super.key, this.companyName = "Add Task", this.isBack = false});
 
-  final String companyName;
+  final String? companyName;
+
+  final bool isBack;
 
   @override
   State<TaskDetailsScreen> createState() => _TaskDetailsScreenState();
@@ -32,23 +35,23 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   Widget build(BuildContext context) {
     final taskProvider = context.watch<TaskController>();
     final taskProviderRead = context.read<TaskController>();
-    final providerWatch = context.watch<ContractController>();
-    final providerRead = context.read<ContractController>();
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         centerTitle: true,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.close,
-              color: Colors.white,
-            )),
+        leading: widget.isBack
+            ? IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ))
+            : null,
         title: Text(
-          widget.companyName,
+          widget.companyName.toString(),
           style: GoogleFonts.poppins(
               color: Colors.white, fontSize: 26, fontWeight: FontWeight.w500),
         ),
@@ -299,153 +302,6 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                 SizedBox(
                                   height: 30,
                                 ),
-                                Text(
-                                  " How much workers do you want ?",
-                                  style: GoogleFonts.poppins(
-                                      color: Colors.black,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.center,
-                                ),
-                                SizedBox(
-                                  height: 25,
-                                ),
-                                providerWatch.workersList.isNotEmpty
-                                    ? Container(
-                                        child: ListView.builder(
-                                          scrollDirection: Axis.vertical,
-                                          physics:
-                                              NeverScrollableScrollPhysics(),
-                                          shrinkWrap: true,
-                                          itemCount:
-                                              providerWatch.workersList.length,
-                                          itemBuilder: (context, index) {
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Card(
-                                                color: Colors.white,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Container(
-                                                      height: 50,
-                                                      width: 50,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(15),
-                                                          image: DecorationImage(
-                                                              fit: BoxFit.cover,
-                                                              image: NetworkImage(
-                                                                  providerWatch
-                                                                      .workersList[
-                                                                          index]
-                                                                      .image))),
-                                                    ),
-                                                    Text(
-                                                      providerWatch
-                                                          .workersList[index]
-                                                          .name,
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 60,
-                                                    ),
-                                                    IconButton(
-                                                        onPressed: () {
-                                                          providerRead
-                                                              .removeWorkerByIndex(
-                                                                  index);
-                                                        },
-                                                        icon: Icon(Icons.close))
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      )
-                                    : SizedBox(),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) {
-                                            return ViewWorkersScreen(
-                                              companyName: widget.companyName,
-                                            );
-                                          },
-                                        ));
-                                      },
-                                      child: Text(
-                                        providerWatch.workersList.isNotEmpty
-                                            ? "Add more"
-                                            : "Select Workers",
-                                        style: GoogleFonts.poppins(
-                                            color: Colors.green,
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  "5. Payement Method?",
-                                  style: GoogleFonts.poppins(
-                                      color: Colors.black,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.left,
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        taskProviderRead.onPayMode(1);
-                                      },
-                                      child: Chip(
-                                        backgroundColor:
-                                            taskProvider.paymentMethod == 1
-                                                ? Colors.green
-                                                : Colors.grey.shade400,
-                                        label: Text("Online Payment"),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 25,
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        taskProviderRead.onPayMode(2);
-                                      },
-                                      child: Chip(
-                                        backgroundColor:
-                                            taskProvider.paymentMethod == 2
-                                                ? Colors.green
-                                                : Colors.grey.shade400,
-                                        label: Text("COD"),
-                                      ),
-                                    ),
-                                  ],
-                                ),
                                 SizedBox(
                                   height: 80,
                                 ),
@@ -466,21 +322,9 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
           showDialog(
               context: context,
               builder: (context) {
-                return Dialog(
-                  backgroundColor: Colors.transparent,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 25),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Center(
-                          child: Lottie.asset(
-                            "assets/animations/Animation - 1700660573236.json",
-                          ),
-                        ),
-                      ],
-                    ),
+                return Center(
+                  child: Lottie.asset(
+                    "assets/animations/Animation - 1700660573236.json",
                   ),
                 );
               });

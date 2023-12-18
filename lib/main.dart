@@ -1,8 +1,8 @@
 import 'package:cleaning_app/controller/contractDetails/contract_controller.dart';
 import 'package:cleaning_app/controller/screen_home_controller/screen_home_controller.dart';
 import 'package:cleaning_app/controller/task_controller/task_controller.dart';
-
 import 'package:cleaning_app/view/screen_home/screen_home.dart';
+
 import 'package:cleaning_app/view/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: ThemeData.dark(),
           title: 'Flutter Demo',
-          home: SplashScreen()),
+          home: ScreenHome()),
     );
   }
 }

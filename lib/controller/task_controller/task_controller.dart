@@ -4,8 +4,6 @@ import 'package:image_picker/image_picker.dart';
 class TaskController extends ChangeNotifier {
   int currentIndex = 0;
 
-  int? paymentMethod;
-
   late DateTime selectedDate;
   late TimeOfDay selectedTime;
 
@@ -49,11 +47,6 @@ class TaskController extends ChangeNotifier {
   getDateTime() {
     selectedDate = DateTime.now();
     selectedTime = TimeOfDay.now();
-  }
-
-  onPayMode(int method) {
-    paymentMethod = method;
-    notifyListeners();
   }
 
   onScreenChange({required int index}) {
