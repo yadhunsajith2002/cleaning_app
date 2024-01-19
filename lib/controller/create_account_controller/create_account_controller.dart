@@ -11,17 +11,16 @@ class CreateAccountController extends ChangeNotifier {
 
   String? emailError;
   String? passwordError;
-  String? selectedRole;
+
   bool isLoading = false; // Add isLoading variable
 
   bool isShow = false;
+  final GlobalKey<FormState> CformKey = GlobalKey<FormState>();
 
   void obscureTextView() {
     isShow = !isShow;
     notifyListeners();
   }
-
-  final GlobalKey<FormState> CformKey = GlobalKey<FormState>();
 
   Future<void> createAccount(BuildContext context) async {
     if (_validate()) {
@@ -35,7 +34,6 @@ class CreateAccountController extends ChangeNotifier {
           passwordController.text.trim(),
         );
 
-        // Store chef information in Firestore
         await storeUsersInFireStore();
 
         // Navigate to the appropriate screen
@@ -60,10 +58,10 @@ class CreateAccountController extends ChangeNotifier {
       // var user = await AuthService().getCurrentUser();
 
       // Store chef information in Firestore with automatically generated ID
-      var chefRef = FirebaseFirestore.instance.collection('users').doc();
-      await chefRef.set({
-        'id': chefRef.id,
-        'chefName': userNameController.text.trim(),
+      var users = FirebaseFirestore.instance.collection('users').doc();
+      await users.set({
+        'id': users.id,
+        'username': userNameController.text.trim(),
         'email': emailController.text.trim(),
         'password': passwordController.text
         // Add other chef information if needed
