@@ -12,8 +12,7 @@ class AuthService {
       return true;
     } catch (e) {
       print('Error logging in: $e');
-      // Handle login error
-      // Display a snackbar or other UI feedback
+
       return false;
     }
   }
@@ -32,17 +31,12 @@ class AuthService {
     }
   }
 
-  Future<void> createAccount(
-    String email,
-    String password,
-  ) async {
+  Future<void> createAccount(String email, String password) async {
     try {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
     } catch (e) {
       print('Error creating account: $e');
-      // Handle registration error
-      // Display a snackbar or other UI feedback
     }
   }
 
