@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:cleaning_app/controller/contractDetails/contract_controller.dart';
 import 'package:cleaning_app/controller/task_controller/task_controller.dart';
-import 'package:cleaning_app/view/task_details_screen/date_time_screen/date_time_screen.dart';
+import 'package:cleaning_app/view/screens/task_details_screen/date_time_screen/date_time_screen.dart';
 import 'package:cleaning_app/view/screen_home/screen_home.dart';
-import 'package:cleaning_app/view/view_workers/view_workers.dart';
+import 'package:cleaning_app/view/screens/view_workers/view_workers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';

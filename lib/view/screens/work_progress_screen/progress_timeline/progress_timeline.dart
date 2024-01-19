@@ -1,5 +1,5 @@
 import 'package:cleaning_app/global%20widgets/custom_icon.dart';
-import 'package:cleaning_app/view/work_progress_screen/time_line/time_line.dart';
+import 'package:cleaning_app/view/screens/work_progress_screen/time_line/time_line.dart';
 import 'package:flutter/material.dart';
 
 class ProgressTimeLine extends StatelessWidget {

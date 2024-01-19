@@ -1,4 +1,4 @@
-import 'package:cleaning_app/view/work_progress_screen/detaisl_card/details_card.dart';
+import 'package:cleaning_app/view/screens/work_progress_screen/detaisl_card/details_card.dart';
 import 'package:flutter/material.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 

@@ -1,7 +1,7 @@
 import 'package:cleaning_app/controller/contractDetails/contract_controller.dart';
 import 'package:cleaning_app/global%20widgets/custom_icon.dart';
-import 'package:cleaning_app/view/task_details_screen/contract_details_screen.dart';
-import 'package:cleaning_app/view/work_progress_screen/progress_timeline/progress_timeline.dart';
+import 'package:cleaning_app/view/screens/task_details_screen/contract_details_screen.dart';
+import 'package:cleaning_app/view/screens/work_progress_screen/progress_timeline/progress_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:avatar_glow/avatar_glow.dart';
@@ -17,7 +17,6 @@ class WorkProgressScreen extends StatefulWidget {
 class _WorkProgressScreenState extends State<WorkProgressScreen> {
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<ContractController>(context);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -88,12 +87,12 @@ class _WorkProgressScreenState extends State<WorkProgressScreen> {
                                 shape: RoundedRectangleBorder(
                                     side: BorderSide.none),
                                 title: Text(
-                                  "fj",
+                                  "New order",
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 22),
                                 ),
                                 subtitle: Text(
-                                  "fj",
+                                  "Old Order",
                                   style: TextStyle(
                                       color: Colors.grey, fontSize: 20),
                                 ),

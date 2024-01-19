@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:cleaning_app/view/onboarding_screen/onboarding.dart';
+import 'package:cleaning_app/view/intro/onboarding_screen/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animator/flutter_animator.dart';
 import 'package:google_fonts/google_fonts.dart';

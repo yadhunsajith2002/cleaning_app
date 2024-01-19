@@ -1,6 +1,6 @@
 import 'package:cleaning_app/db/service_db/data_base.dart';
 import 'package:cleaning_app/global%20widgets/custom_icon.dart';
-import 'package:cleaning_app/view/service_details/service_details_screen.dart';
+import 'package:cleaning_app/view/screens/service_details/service_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatefulWidget {
