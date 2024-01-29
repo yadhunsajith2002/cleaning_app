@@ -5,7 +5,7 @@ import 'package:cleaning_app/global%20widgets/custom_icon.dart';
 import 'package:cleaning_app/global%20widgets/textform_fields.dart';
 
 import 'package:cleaning_app/view/auth/login_screen/login_screen.dart';
-import 'package:cleaning_app/view/screen_home/screen_home.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +17,7 @@ class CreateAccountScreen extends StatefulWidget {
 }
 
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
+  final GlobalKey<FormState> CformKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     var provider = context.read<CreateAccountController>();
@@ -42,7 +43,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
                 child: SingleChildScrollView(
                   child: Form(
-                    key: provider.CformKey,
+                    key: CformKey,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,9 +83,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         ),
                         CustumformField(
                           validator: (value) {
-                            if (value!.isEmpty ||
-                                !RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-                              return provider.emailError;
+                            if (value!.isEmpty) {
+                              return "Enter Email";
+                            }
+                            if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+                              return "Enter Valid email";
                             }
                             return null;
                           },
@@ -112,8 +115,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                 : Icon(Icons.visibility_off),
                           ),
                           validator: (value) {
-                            if (value!.isEmpty || value.length < 6) {
-                              return provider.passwordError;
+                            if (value!.isEmpty) {
+                              return "Enter Password";
+                            }
+                            if (value.length < 6) {
+                              return "Password Length Must be 6";
                             }
                             return null;
                           },
@@ -137,9 +143,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                       foregroundColor:
                                           MaterialStatePropertyAll(ksecondary)),
                                   onPressed: () async {
-                                    provider.setLoading(true);
-                                    await provider.createAccount(context);
-                                    provider.setLoading(false);
+                                    if (CformKey.currentState!.validate()) {
+                                      provider.setLoading(true);
+                                      await provider.createAccount(context);
+                                      provider.setLoading(false);
+                                    }
                                   },
                                   child: Text("Sign Up",
                                       style: textStyle(

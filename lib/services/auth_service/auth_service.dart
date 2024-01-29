@@ -31,12 +31,14 @@ class AuthService {
     }
   }
 
-  Future<void> createAccount(String email, String password) async {
+  Future<bool> createAccount(String email, String password) async {
     try {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      return true;
     } catch (e) {
       print('Error creating account: $e');
+      return false;
     }
   }
 

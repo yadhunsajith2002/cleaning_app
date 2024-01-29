@@ -1,8 +1,10 @@
 import 'package:cleaning_app/controller/create_account_controller/create_account_controller.dart';
+import 'package:cleaning_app/controller/login_controller/login_controller.dart';
 import 'package:cleaning_app/controller/screen_home_controller/screen_home_controller.dart';
 import 'package:cleaning_app/controller/task_controller/task_controller.dart';
 import 'package:cleaning_app/firebase_options.dart';
 import 'package:cleaning_app/view/auth/create_account/ceate_acc_screen.dart';
+import 'package:cleaning_app/view/auth/login_screen/login_screen.dart';
 
 import 'package:cleaning_app/view/intro/splash_screen/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -33,12 +35,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => ScreenHomeController(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => LoginController(),
+        ),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData.dark(),
           title: 'Flutter Demo',
-          home: CreateAccountScreen()),
+          home: LoginScreen()),
     );
   }
 }

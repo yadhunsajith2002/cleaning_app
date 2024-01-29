@@ -1,5 +1,4 @@
 import 'package:cleaning_app/services/auth_service/auth_service.dart';
-import 'package:cleaning_app/view/auth/login_screen/login_screen.dart';
 import 'package:cleaning_app/view/screen_home/screen_home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +8,9 @@ class CreateAccountController extends ChangeNotifier {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController userNameController = TextEditingController();
 
-  String? emailError;
-  String? passwordError;
-
   bool isLoading = false; // Add isLoading variable
 
   bool isShow = false;
-  final GlobalKey<FormState> CformKey = GlobalKey<FormState>();
 
   void obscureTextView() {
     isShow = !isShow;
@@ -23,17 +18,25 @@ class CreateAccountController extends ChangeNotifier {
   }
 
   Future<void> createAccount(BuildContext context) async {
-    if (_validate()) {
-      try {
-        // Start loading
-        setLoading(true);
+    try {
+      // Start loading
+      setLoading(true);
 
-        // Create an account in Firebase Authentication
-        await AuthService().createAccount(
-          emailController.text.trim(),
-          passwordController.text.trim(),
+      // Create an account in Firebase Authentication
+      bool createUser = await AuthService().createAccount(
+        emailController.text.trim(),
+        passwordController.text.trim(),
+      );
+      if (!createUser) {
+        final snackBar = SnackBar(
+          content: Text('Unable To Create Account'),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 2),
         );
 
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        notifyListeners();
+      } else {
         await storeUsersInFireStore();
 
         // Navigate to the appropriate screen
@@ -42,13 +45,13 @@ class CreateAccountController extends ChangeNotifier {
           MaterialPageRoute(builder: (context) => ScreenHome()),
           (route) => false,
         );
-      } catch (e) {
-        print("Error creating account: $e");
-        // Handle errors as needed
-      } finally {
-        // Stop loading
-        setLoading(false);
       }
+    } catch (e) {
+      print("Error creating account: $e");
+      // Handle errors as needed
+    } finally {
+      // Stop loading
+      setLoading(false);
     }
   }
 
@@ -72,38 +75,9 @@ class CreateAccountController extends ChangeNotifier {
     }
   }
 
-  bool _validate() {
-    bool isValid = CformKey.currentState!.validate();
-
-    if (!isValid) {
-      // Set error messages based on validation errors
-      _setErrorMessages(
-        'Enter a valid email address',
-        'Password must be at least 6 characters',
-      );
-    }
-
-    return isValid;
-  }
-
   void setLoading(bool value) {
     // Set loading state
     isLoading = value;
     notifyListeners();
-  }
-
-  void _setErrorMessages(String email, String password) {
-    // Set error messages
-    emailError = email;
-    passwordError = password;
-    notifyListeners();
-  }
-
-  void goToCreateAccount(BuildContext context) {
-    // Navigate to the login screen
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => LoginScreen()),
-    );
   }
 }
